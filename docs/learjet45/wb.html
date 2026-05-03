@@ -4,115 +4,54 @@
     <meta charset="UTF-8">
     <title>Learjet 45 – Weight & Balance</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/wb.js" defer></script>
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #58a6ff;
-            margin: 0 12px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .wb-container {
-            max-width: 750px;
-            margin: auto;
-            background: #161b22;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border-radius: 6px;
-            border: 1px solid #30363d;
-            background: #0d1117;
-            color: white;
-        }
-
-        .result-box {
-            margin-top: 25px;
-            padding: 15px;
-            background: #1f2630;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-        }
-
-        .result-box p {
-            margin: 6px 0;
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Learjet 45</h1>
-    <h3>Weight & Balance</h3>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="perf.html">Performance</a>
-        <a href="specs.html">Specs</a>
-        <a href="settings.html">Settings</a>
+    <div class="navbar">
+        <div class="navbar-title">Learjet 45 – Weight & Balance</div>
+        <a href="../index.html">Change Aircraft</a>
     </div>
 
-    <div class="wb-container">
+    <div class="page-header">
+        <h1>Weight & Balance</h1>
+        <h3>Load the aircraft and check if it's safe to fly</h3>
+    </div>
 
-        <label>Pilot + Co‑Pilot (lbs)</label>
+    <div class="card">
+
+        <label>Crew Weight (lbs)</label>
         <input type="number" id="frontCrew" placeholder="e.g. 380">
 
-        <label>Passenger Seats (lbs total)</label>
+        <label>Passenger Weight (lbs)</label>
         <input type="number" id="passengers" placeholder="e.g. 900">
 
         <label>Aft Baggage (lbs)</label>
-        <input type="number" id="aftBaggage" placeholder="e.g. 120">
+        <input type="number" id="aftBaggage" placeholder="e.g. 200">
 
         <label>Fuel Onboard (lbs)</label>
-        <input type="number" id="fuelLbs" placeholder="e.g. 4500">
+        <input type="number" id="fuelLbs" placeholder="e.g. 3000">
 
-        <label>Fuel Burn for Flight (lbs)</label>
+        <label>Planned Fuel Burn (lbs)</label>
         <input type="number" id="fuelBurnLbs" placeholder="e.g. 1200">
+
+        <label>Taxi Fuel (lbs, optional)</label>
+        <input type="number" id="taxiFuel" placeholder="Optional">
+
+        <label>Reserve Fuel (lbs, optional)</label>
+        <input type="number" id="reserveFuel" placeholder="Optional">
 
         <div class="result-box" id="ljResults">
             <p>Enter values to calculate weight & balance.</p>
         </div>
 
+        <div class="result-box" id="safeStatus">
+            <p class="safe-status-text">Safe to fly status will appear here.</p>
+        </div>
+
     </div>
 
+    <script src="../js/core.js"></script>
+    <script src="../js/wb.js"></script>
 </body>
 </html>
