@@ -4,128 +4,52 @@
     <meta charset="UTF-8">
     <title>Learjet 45 – Aircraft Specs</title>
     <link rel="stylesheet" href="../css/style.css">
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #58a6ff;
-            margin: 0 12px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .specs-container {
-            max-width: 750px;
-            margin: auto;
-            background: #161b22;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-
-        .spec-section {
-            margin-bottom: 25px;
-        }
-
-        .spec-section h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 5px;
-        }
-
-        .spec-item {
-            margin: 6px 0;
-            font-size: 16px;
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Learjet 45</h1>
-    <h3>Aircraft Specifications</h3>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="wb.html">Weight & Balance</a>
-        <a href="perf.html">Performance</a>
-        <a href="settings.html">Settings</a>
+    <div class="navbar">
+        <div class="navbar-title">Learjet 45 – Specs</div>
+        <a href="../index.html">Change Aircraft</a>
     </div>
 
-    <div class="specs-container">
+    <div class="page-header">
+        <h1>Aircraft Specifications</h1>
+        <h3>Values shown here update based on Settings</h3>
+    </div>
 
-        <div class="spec-section">
-            <h2>General</h2>
-            <p class="spec-item">Model: Bombardier Learjet 45</p>
-            <p class="spec-item">Engines: 2 × Honeywell TFE731‑20</p>
-            <p class="spec-item">Thrust: 3,500 lbf each</p>
-            <p class="spec-item">Fuel Type: Jet‑A</p>
-        </div>
+    <div class="card" id="specsCard">
 
-        <div class="spec-section">
-            <h2>Weights</h2>
-            <p class="spec-item">Max Takeoff Weight: 21,500 lbs</p>
-            <p class="spec-item">Max Landing Weight: 19,200 lbs</p>
-            <p class="spec-item">Empty Weight: ~12,500 lbs</p>
-            <p class="spec-item">Useful Load: ~9,000 lbs</p>
-            <p class="spec-item">Fuel Capacity: 6,062 lbs</p>
-        </div>
+        <h2>General</h2>
+        <p>Model: <span id="specModel">Learjet 45</span></p>
+        <p>Engine: <span id="specEngine">Honeywell TFE731‑20</span></p>
+        <p>Fuel Type: <span id="specFuelType">Jet‑A</span></p>
 
-        <div class="spec-section">
-            <h2>Performance</h2>
-            <p class="spec-item">Cruise Speed: 465 KTAS</p>
-            <p class="spec-item">Max Range: ~1,900 NM</p>
-            <p class="spec-item">Fuel Burn: ~1,600–1,900 lbs/hr</p>
-            <p class="spec-item">Service Ceiling: 51,000 ft</p>
-            <p class="spec-item">Takeoff Distance: ~4,300 ft</p>
-            <p class="spec-item">Landing Distance: ~2,600 ft</p>
-        </div>
+        <h2>Weights</h2>
+        <p>Max Takeoff Weight: <span id="specMaxTOW">21500</span> lbs</p>
+        <p>Max Landing Weight: <span id="specMaxLW">19200</span> lbs</p>
+        <p>Empty Weight: <span id="specEmptyWeight">12500</span> lbs</p>
+        <p>Fuel Capacity: <span id="specFuelCapacity">6062</span> lbs</p>
 
-        <div class="spec-section">
-            <h2>Dimensions</h2>
-            <p class="spec-item">Wingspan: 47 ft 10 in</p>
-            <p class="spec-item">Length: 58 ft 4 in</p>
-            <p class="spec-item">Height: 14 ft 1 in</p>
-            <p class="spec-item">Cabin Length: 19 ft 8 in</p>
-        </div>
+        <h2>Capacity</h2>
+        <p>Crew: <span id="specCrew">2</span></p>
+        <p>Passengers: <span id="specPassengers">8</span></p>
+        <p>Total Seats: <span id="specTotalSeats">10</span></p>
+        <p>Baggage Capacity: <span id="specBaggageCapacity">500</span> lbs</p>
 
-        <div class="spec-section">
-            <h2>V‑Speeds</h2>
-            <p class="spec-item">V1: ~120–130 KIAS</p>
-            <p class="spec-item">Vr: ~122–135 KIAS</p>
-            <p class="spec-item">V2: ~135–145 KIAS</p>
-            <p class="spec-item">Vref: ~118–125 KIAS</p>
-            <p class="spec-item">Vmo: 330 KIAS</p>
-            <p class="spec-item">Mmo: Mach 0.81</p>
-        </div>
+        <h2>Performance</h2>
+        <p>Cruise Speed: <span id="specCruise">465</span> KTAS</p>
+        <p>Range: <span id="specRange">1900</span> NM</p>
+        <p>Service Ceiling: <span id="specCeiling">51000</span> ft</p>
+
+        <h2>V‑Speeds</h2>
+        <p>Vr: <span id="specVr">130</span> KIAS</p>
+        <p>Vfe: <span id="specVfe">200</span> KIAS</p>
+        <p>Vne: <span id="specVne">330</span> KIAS</p>
 
     </div>
 
+    <script src="../js/core.js"></script>
+    <script src="../js/specs.js"></script>
 </body>
 </html>
