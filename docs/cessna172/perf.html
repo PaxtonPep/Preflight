@@ -4,109 +4,49 @@
     <meta charset="UTF-8">
     <title>Cessna 172 – Performance</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/perf.js" defer></script>
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #58a6ff;
-            margin: 0 12px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .perf-container {
-            max-width: 700px;
-            margin: auto;
-            background: #161b22;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border-radius: 6px;
-            border: 1px solid #30363d;
-            background: #0d1117;
-            color: white;
-        }
-
-        .result-box {
-            margin-top: 25px;
-            padding: 15px;
-            background: #1f2630;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-        }
-
-        .result-box p {
-            margin: 6px 0;
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Cessna 172</h1>
-    <h3>Performance Calculator</h3>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="wb.html">Weight & Balance</a>
-        <a href="specs.html">Specs</a>
-        <a href="settings.html">Settings</a>
+    <div class="navbar">
+        <div class="navbar-title">Cessna 172 – Performance</div>
+        <a href="../index.html">Change Aircraft</a>
     </div>
 
-    <div class="perf-container">
+    <div class="page-header">
+        <h1>Performance Calculator</h1>
+        <h3>Plan cruise, fuel, and range</h3>
+    </div>
+
+    <div class="card">
 
         <label>Pressure Altitude (ft)</label>
-        <input type="number" id="pressureAlt" placeholder="e.g. 3000">
+        <input type="number" id="pressureAlt" placeholder="e.g. 6000">
 
         <label>OAT (°C)</label>
-        <input type="number" id="oat" placeholder="e.g. 12">
+        <input type="number" id="oat" placeholder="e.g. 5">
 
-        <label>Indicated Airspeed (IAS) (kts)</label>
-        <input type="number" id="ias" placeholder="e.g. 100">
+        <label>Indicated Airspeed (KIAS)</label>
+        <input type="number" id="ias" placeholder="e.g. 105">
 
-        <label>Fuel Burn (GPH)</label>
-        <input type="number" id="fuelBurn" placeholder="e.g. 8.5">
+        <label>Fuel Burn (gal/hr)</label>
+        <input type="number" id="fuelBurn" placeholder="e.g. 9.5">
 
-        <label>Flight Time (hours)</label>
+        <label>Flight Planning Mode</label>
+        <select id="flightMode">
+            <option value="time">Plan by Flight Time</option>
+            <option value="distance">Plan by Distance</option>
+            <option value="block">Plan by Block Time</option>
+        </select>
+
+        <label id="flightTimeLabel">Flight Time (hours)</label>
         <input type="number" id="flightTime" placeholder="e.g. 2.3">
+
+        <label id="distanceLabel" style="display:none;">Planned Distance (NM)</label>
+        <input type="number" id="distance" placeholder="e.g. 240" style="display:none;">
+
+        <label id="blockTimeLabel" style="display:none;">Block Time (hours)</label>
+        <input type="number" id="blockTime" placeholder="Gate‑to‑gate" style="display:none;">
 
         <div class="result-box" id="perfResults">
             <p>Enter values to calculate performance.</p>
