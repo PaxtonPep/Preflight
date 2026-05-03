@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Preflight – Weight & Balance</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
+<header>
+  <h1>Preflight – Weight &amp; Balance</h1>
+  <button id="settingsBtn">Settings</button>
+</header>
+
+<!-- SETTINGS DRAWER -->
+<div id="settingsPanel">
+  <div class="settings-header">
+    <h2>Settings</h2>
+    <button class="closeBtn" onclick="toggleSettings()">Close</button>
+  </div>
+  <div class="settings-panel-body">
+    <div class="settings-section-title">Limits</div>
+    <label>Max Takeoff Weight (lbs)</label>
+    <input id="maxTO" type="number" value="2550">
+    <label>Max Landing Weight (lbs)</label>
+    <input id="maxLDG" type="number" value="2550">
+
+    <div class="settings-section-title">Arms (inches aft of datum)</div>
+    <label>Empty Aircraft</label><input id="arm_empty" type="number" value="39.5">
+    <label id="label_arm_front">Front Seats</label><input id="arm_front" type="number" value="37.0">
+    <label id="label_arm_rear">Rear Seats</label><input id="arm_rear" type="number" value="73.0">
+    <label id="label_arm_bag">Baggage</label><input id="arm_bag" type="number" value="95.0">
+    <label>Fuel</label><input id="arm_fuel" type="number" value="48.0">
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. AIRCRAFT -->
+  <div class="card">
+    <div class="card-header">
+      <h2>1. Aircraft</h2>
+      <span class="subtext">Choose type, then scroll down</span>
+    </div>
+    <div class="plane-wrap">
+      <img id="planeImg" class="plane-img"
+           src="CofG/Assets/cessna172outline.png"
+           alt="Cessna 172 outline">
+      <div>
+        <div class="plane-name" id="planeName">Cessna 172S</div>
+        <div class="plane-meta" id="planeMeta">4 seats • Piston • Trainer</div>
+        <div style="margin-top:6px;">
+          <select id="aircraft" onchange="loadAircraft()">
+            <option value="172">Cessna 172S</option>
+            <option value="lj45">Learjet 45</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. LOADING -->
+  <div class="card">
+    <div class="card-header">
+      <h2>2. Loading</h2>
+      <span class="subtext">Fill in weights, then tap Calculate</span>
+    </div>
+
+    <div class="grid-row grid-header">
+      <div>Item</div><div>Weight</div><div>Arm</div><div>Moment</div>
+    </div>
+
+    <div class="grid-row">
+      <div>Empty Aircraft</div>
+      <input id="wt_empty" type="number" value="1691">
+      <input id="arm_empty_disp" disabled>
+      <input id="mom_empty" disabled>
+    </div>
+
+    <div class="grid-row">
+      <div id="label_front_row">Front Seats</div>
+      <input id="wt_front" type="number" value="320">
+      <input id="arm_front_disp" disabled>
+      <input id="mom_front" disabled>
+    </div>
+
+    <div class="grid-row" id="row_rear">
+      <div id="label_rear_row">Rear Seats</div>
+      <input id="wt_rear" type="number" value="270">
+      <input id="arm_rear_disp" disabled>
+      <input id="mom_rear" disabled>
+    </div>
+
+    <div class="grid-row" id="row_bag">
+      <div id="label_bag_row">Baggage</div>
+      <input id="wt_bag" type="number" value="40">
+      <input id="arm_bag_disp" disabled>
+      <input id="mom_bag" disabled>
+    </div>
+
+    <div class="grid-row">
+      <div>Fuel at Takeoff</div>
+      <input id="wt_fuel_to" type="number" value="210">
+      <input id="arm_fuel_disp" disabled>
+      <input id="mom_fuel_to" disabled>
+    </div>
+
+    <div class="grid-row">
+      <div>Fuel Burn (enroute)</div>
+      <input id="wt_fuel_burn" type="number" value="108">
+      <div></div><div></div>
+    </div>
+
+    <button class="primary" onclick="calcWB()">Calculate</button>
+  </div>
+
+  <!-- 3. RESULTS -->
+  <div class="card">
+    <div class="card-header">
+      <h2>3. Results</h2>
+      <span class="subtext">Check against your CG chart</span>
+    </div>
+    <div class="result-box" id="zfwBox"></div>
+    <div class="result-box" id="toBox"></div>
+    <div class="result-box" id="ldgBox"></div>
+  </div>
+
+  <!-- 4. SIMPLE PERFORMANCE -->
+  <div class="card">
+    <div class="card-header">
+      <h2>4. Simple Performance Estimate</h2>
+      <span class="subtext">No wind, straight‑line estimate</span>
+    </div>
+
+    <div class="perf-grid">
+      <div>
+        <label class="small-label">Mode</label>
+        <select id="perfMode" onchange="updatePerfMode()">
+          <option value="distanceToTime">Given distance → time</option>
+          <option value="timeToDistance">Given time → distance</option>
+          <option value="fuelOnly">Given time → fuel only</option>
+        </select>
+      </div>
+      <div id="perfDistanceWrap">
+        <label class="small-label">Distance (NM)</label>
+        <input id="perfDistance" type="number" value="120">
+      </div>
+      <div id="perfTimeWrap">
+        <label class="small-label">Time (min)</label>
+        <input id="perfTime" type="number" value="60">
+      </div>
+    </div>
+
+    <div class="perf-grid">
+      <div id="perfTASWrap">
+        <label class="small-label">TAS (kt)</label>
+        <input id="perfTAS" type="number" value="110">
+      </div>
+      <div>
+        <label class="small-label">Fuel Flow (GPH)</label>
+        <input id="perfFF" type="number" value="9">
+      </div>
+      <div>
+        <label class="small-label">Fuel Used (gal)</label>
+        <input id="perfFuelUsed" type="text" disabled>
+      </div>
+    </div>
+
+    <button class="primary" onclick="calcPerf()">Estimate</button>
+    <div class="result-box" id="perfBox"></div>
+  </div>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
