@@ -4,116 +4,52 @@
     <meta charset="UTF-8">
     <title>Cessna 172 – Aircraft Specs</title>
     <link rel="stylesheet" href="../css/style.css">
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #58a6ff;
-            margin: 0 12px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .specs-container {
-            max-width: 750px;
-            margin: auto;
-            background: #161b22;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-
-        .spec-section {
-            margin-bottom: 25px;
-        }
-
-        .spec-section h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 5px;
-        }
-
-        .spec-item {
-            margin: 6px 0;
-            font-size: 16px;
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Cessna 172</h1>
-    <h3>Aircraft Specifications</h3>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="wb.html">Weight & Balance</a>
-        <a href="perf.html">Performance</a>
-        <a href="settings.html">Settings</a>
+    <div class="navbar">
+        <div class="navbar-title">Cessna 172 – Specs</div>
+        <a href="../index.html">Change Aircraft</a>
     </div>
 
-    <div class="specs-container">
+    <div class="page-header">
+        <h1>Aircraft Specifications</h1>
+        <h3>Values shown here will be driven by Settings</h3>
+    </div>
 
-        <div class="spec-section">
-            <h2>General</h2>
-            <p class="spec-item">Model: Cessna 172S Skyhawk</p>
-            <p class="spec-item">Engine: Lycoming IO‑360‑L2A (180 HP)</p>
-            <p class="spec-item">Propeller: McCauley 2‑blade</p>
-            <p class="spec-item">Fuel Type: 100LL</p>
-        </div>
+    <div class="card" id="specsCard">
 
-        <div class="spec-section">
-            <h2>Weights</h2>
-            <p class="spec-item">Max Takeoff Weight: 2550 lbs</p>
-            <p class="spec-item">Empty Weight: ~1660 lbs (varies)</p>
-            <p class="spec-item">Useful Load: ~890 lbs</p>
-            <p class="spec-item">Fuel Capacity: 56 gal (53 usable)</p>
-        </div>
+        <h2>General</h2>
+        <p>Model: <span id="specModel">Cessna 172S</span></p>
+        <p>Engine: <span id="specEngine">Lycoming IO‑360‑L2A</span></p>
+        <p>Fuel Type: <span id="specFuelType">100LL Avgas</span></p>
 
-        <div class="spec-section">
-            <h2>Performance</h2>
-            <p class="spec-item">Cruise Speed: 110–122 KTAS</p>
-            <p class="spec-item">Fuel Burn: 7–10 GPH</p>
-            <p class="spec-item">Range: ~515 NM</p>
-            <p class="spec-item">Service Ceiling: 14,000 ft</p>
-            <p class="spec-item">Takeoff Distance: ~1,630 ft</p>
-            <p class="spec-item">Landing Distance: ~1,335 ft</p>
-        </div>
+        <h2>Weights</h2>
+        <p>Max Takeoff Weight: <span id="specMaxTOW">2550</span> lbs</p>
+        <p>Empty Weight: <span id="specEmptyWeight">1660</span> lbs</p>
+        <p>Useful Load: <span id="specUsefulLoad">890</span> lbs</p>
+        <p>Fuel Capacity: <span id="specFuelCapacity">56</span> gal</p>
 
-        <div class="spec-section">
-            <h2>Dimensions</h2>
-            <p class="spec-item">Wingspan: 36 ft 1 in</p>
-            <p class="spec-item">Length: 27 ft 2 in</p>
-            <p class="spec-item">Height: 8 ft 11 in</p>
-            <p class="spec-item">Wing Area: 174 sq ft</p>
-        </div>
+        <h2>Capacity</h2>
+        <p>Crew: <span id="specCrew">1</span></p>
+        <p>Passengers: <span id="specPassengers">3</span></p>
+        <p>Total Seats: <span id="specTotalSeats">4</span></p>
+        <p>Baggage Capacity: <span id="specBaggageCapacity">120</span> lbs</p>
 
-        <div class="spec-section">
-            <h2>V‑Speeds</h2>
-            <p class="spec-item">Vx: 62 KIAS</p>
+        <h2>Performance</h2>
+        <p>Cruise Speed: <span id="specCruise">122</span> KTAS</p>
+        <p>Range: <span id="specRange">640</span> NM</p>
+        <p>Service Ceiling: <span id="specCeiling">14000</span> ft</p>
+
+        <h2>V‑Speeds</h2>
+        <p>Vr: <span id="specVr">55</span> KIAS</p>
+        <p>Vx: <span id="specVx">62</span> KIAS</p>
+        <p>Vy: <span id="specVy">74</span> KIAS</p>
+        <p>Vfe: <span id="specVfe">110</span> KIAS</p>
+        <p>Vne: <span id="specVne">163</span> KIAS</p>
+
+    </div>
+
+</body>
+</html>
