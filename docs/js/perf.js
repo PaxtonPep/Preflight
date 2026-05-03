@@ -1,73 +1,103 @@
-/*  
-   perf.js  
-   Performance calculations for:
-   - Cessna 172
-   - Learjet 45
+/* perf.js
+   Performance for C172 (and later LJ45)
 */
 
-// Detect aircraft
-function isC172() {
-    return window.location.pathname.includes("cessna172");
+document.addEventListener("DOMContentLoaded", () => {
+    if (isC172()) initC172PerfUI();
+});
+
+document.addEventListener("input", () => {
+    if (isC172()) calculateC172Perf();
+    if (isLJ45()) calculateLJ45Perf();
+});
+
+function initC172PerfUI() {
+    const modeSelect = document.getElementById("flightMode");
+    if (!modeSelect) return;
+
+    modeSelect.addEventListener("change", () => {
+        const mode = modeSelect.value;
+
+        const timeLabel = document.getElementById("flightTimeLabel");
+        const timeInput = document.getElementById("flightTime");
+        const distLabel = document.getElementById("distanceLabel");
+        const distInput = document.getElementById("distance");
+        const blockLabel = document.getElementById("blockTimeLabel");
+        const blockInput = document.getElementById("blockTime");
+
+        if (mode === "time") {
+            show(timeLabel, timeInput);
+            hide(distLabel, distInput);
+            hide(blockLabel, blockInput);
+        } else if (mode === "distance") {
+            hide(timeLabel, timeInput);
+            show(distLabel, distInput);
+            hide(blockLabel, blockInput);
+        } else if (mode === "block") {
+            hide(timeLabel, timeInput);
+            hide(distLabel, distInput);
+            show(blockLabel, blockInput);
+        }
+    });
 }
 
-function isLJ45() {
-    return window.location.pathname.includes("learjet45");
-}
-
-// -------------------------------
-// CESSNA 172 PERFORMANCE
-// -------------------------------
 function calculateC172Perf() {
-    const pressureAlt = Number(document.getElementById("pressureAlt").value) || 0;
-    const oat = Number(document.getElementById("oat").value) || 0;
-    const ias = Number(document.getElementById("ias").value) || 0;
-    const fuelBurn = Number(document.getElementById("fuelBurn").value) || 0;
-    const flightTime = Number(document.getElementById("flightTime").value) || 0;
+    const pressureAlt = num("pressureAlt") || 0;
+    const oat = num("oat") || 0;
+    const ias = num("ias") || 0;
+    const fuelBurn = num("fuelBurn") || 0;
 
-    // Density altitude formula (simplified)
+    const modeEl = document.getElementById("flightMode");
+    const mode = modeEl ? modeEl.value : "time";
+
+    let flightTime = 0;
+    let distance = 0;
+
+    // density altitude (simple)
     const isaTemp = 15 - (2 * (pressureAlt / 1000));
     const densityAlt = pressureAlt + (120 * (oat - isaTemp));
 
     // TAS approximation
     const tas = ias + (ias * (densityAlt / 10000) * 0.02);
 
-    const fuelUsed = fuelBurn * flightTime;
-    const range = tas * flightTime;
+    if (mode === "time") {
+        flightTime = num("flightTime") || 0;
+        distance = tas * flightTime;
+    } else if (mode === "distance") {
+        distance = num("distance") || 0;
+        flightTime = tas > 0 ? distance / tas : 0;
+    } else if (mode === "block") {
+        const blockTime = num("blockTime") || 0;
+        // assume 0.2 hr taxi, rest cruise
+        flightTime = Math.max(blockTime - 0.2, 0);
+        distance = tas * flightTime;
+    }
 
-    document.getElementById("perfResults").innerHTML = `
+    const fuelUsed = fuelBurn * flightTime;
+
+    const box = document.getElementById("perfResults");
+    if (!box) return;
+
+    box.innerHTML = `
         <p><b>Density Altitude:</b> ${densityAlt.toFixed(0)} ft</p>
         <p><b>TAS:</b> ${tas.toFixed(1)} kts</p>
+        <p><b>Flight Time:</b> ${flightTime.toFixed(2)} hr</p>
+        <p><b>Distance:</b> ${distance.toFixed(1)} NM</p>
         <p><b>Fuel Used:</b> ${fuelUsed.toFixed(1)} gal</p>
-        <p><b>Range:</b> ${range.toFixed(1)} NM</p>
     `;
 }
 
-// -------------------------------
-// LEARJET 45 PERFORMANCE
-// -------------------------------
+// simple LJ45 placeholder
 function calculateLJ45Perf() {
-    const mach = Number(document.getElementById("mach").value) || 0;
-    const altitude = Number(document.getElementById("altitude").value) || 0;
-    const oat = Number(document.getElementById("oat").value) || 0;
-    const fuelBurn = Number(document.getElementById("fuelBurnLbs").value) || 0;
-    const flightTime = Number(document.getElementById("flightTime").value) || 0;
-
-    // Speed of sound (approx)
-    const speedOfSound = 661 - (0.003 * altitude);
-    const tas = mach * speedOfSound;
-
-    const fuelUsed = fuelBurn * flightTime;
-    const range = tas * flightTime;
-
-    document.getElementById("ljPerfResults").innerHTML = `
-        <p><b>TAS:</b> ${tas.toFixed(1)} kts</p>
-        <p><b>Fuel Used:</b> ${fuelUsed.toFixed(0)} lbs</p>
-        <p><b>Range:</b> ${range.toFixed(1)} NM</p>
-    `;
+    // hook into your existing LJ45 perf page later
 }
 
-// Auto-update
-document.addEventListener("input", () => {
-    if (isC172()) calculateC172Perf();
-    if (isLJ45()) calculateLJ45Perf();
-});
+// helpers
+function show(label, input) {
+    if (label) label.style.display = "";
+    if (input) input.style.display = "";
+}
+function hide(label, input) {
+    if (label) label.style.display = "none";
+    if (input) input.style.display = "none";
+}
