@@ -4,72 +4,32 @@
     <meta charset="UTF-8">
     <title>Learjet 45 – Aircraft Home</title>
     <link rel="stylesheet" href="../css/style.css">
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            font-weight: normal;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .aircraft-img {
-            width: 350px;
-            margin: 25px auto;
-            display: block;
-        }
-
-        .button-grid {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .nav-button {
-            background: #161b22;
-            padding: 18px 28px;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            transition: 0.2s;
-            width: 220px;
-            display: inline-block;
-        }
-
-        .nav-button:hover {
-            background: #1f2630;
-            transform: scale(1.03);
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Learjet 45</h1>
-    <h3>Aircraft Profile</h3>
+    <div class="navbar">
+        <div class="navbar-title">Learjet 45</div>
+        <a href="../index.html">Change Aircraft</a>
+    </div>
 
-    <img src="../CofG/Assets/learjet45outline.png" class="aircraft-img" alt="Learjet 45">
+    <div class="page-header">
+        <h1>Learjet 45</h1>
+        <h3>Aircraft Profile</h3>
+    </div>
 
-    <div class="button-grid">
-        <a href="wb.html" class="nav-button">Weight & Balance</a>
-        <a href="perf.html" class="nav-button">Performance</a>
-        <a href="specs.html" class="nav-button">Aircraft Specs</a>
-        <a href="settings.html" class="nav-button">Settings</a>
+    <div class="card" style="text-align:center;">
+        <img src="../CofG/Assets/learjet45outline.png" 
+             alt="Learjet 45" 
+             style="width:360px; margin-bottom:10px;">
+        <p class="text-light">Light business jet</p>
+    </div>
+
+    <div class="card" style="text-align:center;">
+        <a href="wb.html" class="button" style="margin:10px;">Weight & Balance</a>
+        <a href="perf.html" class="button" style="margin:10px;">Performance</a>
+        <a href="specs.html" class="button" style="margin:10px;">Aircraft Specs</a>
+        <a href="settings.html" class="button" style="margin:10px;">Settings</a>
     </div>
 
 </body>
