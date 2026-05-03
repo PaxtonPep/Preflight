@@ -4,97 +4,24 @@
     <meta charset="UTF-8">
     <title>Learjet 45 – Performance</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/perf.js" defer></script>
-
-    <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #9ba3b4;
-            margin-top: 0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .nav a {
-            color: #58a6ff;
-            margin: 0 12px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav a:hover {
-            text-decoration: underline;
-        }
-
-        .perf-container {
-            max-width: 750px;
-            margin: auto;
-            background: #161b22;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border-radius: 6px;
-            border: 1px solid #30363d;
-            background: #0d1117;
-            color: white;
-        }
-
-        .result-box {
-            margin-top: 25px;
-            padding: 15px;
-            background: #1f2630;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-        }
-
-        .result-box p {
-            margin: 6px 0;
-        }
-    </style>
 </head>
+
 <body>
 
-    <h1>Learjet 45</h1>
-    <h3>Performance Calculator</h3>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="wb.html">Weight & Balance</a>
-        <a href="specs.html">Specs</a>
-        <a href="settings.html">Settings</a>
+    <div class="navbar">
+        <div class="navbar-title">Learjet 45 – Performance</div>
+        <a href="../index.html">Change Aircraft</a>
     </div>
 
-    <div class="perf-container">
+    <div class="page-header">
+        <h1>Performance Calculator</h1>
+        <h3>Plan cruise, fuel, and range</h3>
+    </div>
 
-        <label>Cruise Mach</label>
-        <input type="number" id="mach" step="0.01" placeholder="e.g. 0.78">
+    <div class="card">
+
+        <label>Mach Number</label>
+        <input type="number" id="mach" placeholder="e.g. 0.78">
 
         <label>Cruise Altitude (ft)</label>
         <input type="number" id="altitude" placeholder="e.g. 41000">
@@ -106,7 +33,7 @@
         <input type="number" id="fuelBurnLbs" placeholder="e.g. 1800">
 
         <label>Flight Time (hours)</label>
-        <input type="number" id="flightTime" placeholder="e.g. 2.4">
+        <input type="number" id="flightTime" placeholder="e.g. 3.2">
 
         <div class="result-box" id="ljPerfResults">
             <p>Enter values to calculate performance.</p>
@@ -114,5 +41,7 @@
 
     </div>
 
+    <script src="../js/core.js"></script>
+    <script src="../js/perf.js"></script>
 </body>
 </html>
