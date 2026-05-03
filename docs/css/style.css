@@ -1,225 +1,208 @@
+/* ----------------------------------------------------
+   GLOBAL LIGHT MODE UI — FORE­FLIGHT STYLE
+   Font: Inter (Google Fonts)
+---------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --primary: #1a73e8;
-  --bg: #f5f6f8;
-  --card-bg: #ffffff;
-  --radius: 12px;
-  --shadow: 0 2px 10px rgba(0,0,0,0.06);
-  --text-muted: #6b7280;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --border: #d9dee5;
+    --text: #1a1d21;
+    --text-light: #6b7280;
+    --accent: #2d6cdf;
+    --accent-hover: #1f4fb3;
+    --good: #2ecc71;
+    --warn: #f1c40f;
+    --bad: #e74c3c;
+    --radius: 12px;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-* { box-sizing: border-box; }
+
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--bg);
-  color: #111827;
-}
-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-header h1 {
-  margin: 0;
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #111827;
-}
-header button {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-.container {
-  max-width: 960px;
-  margin: 16px auto 40px;
-  padding: 0 16px;
-}
-.card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px 16px 14px;
-  margin-bottom: 16px;
-}
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 10px;
-}
-.card-header h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-.subtext {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-select, input {
-  width: 100%;
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-size: 0.9rem;
-}
-select:focus, input:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 1px;
-  border-color: transparent;
-}
-button.primary {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  margin-top: 10px;
-}
-.grid-row {
-  display: grid;
-  grid-template-columns: 2.2fr 1fr 1fr 1fr;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-}
-.grid-header {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 4px;
-  margin-bottom: 6px;
-}
-.result-box {
-  background: #eef2ff;
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-size: 0.9rem;
-  margin-bottom: 6px;
-}
-.result-label {
-  font-weight: 600;
-}
-.result-warn {
-  color: #b91c1c;
-  font-weight: 600;
-}
-.result-ok {
-  color: #15803d;
-  font-weight: 600;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* Plane display */
-.plane-wrap {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.plane-img {
-  width: 140px;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
-}
-.plane-name {
-  font-weight: 600;
-}
-.plane-meta {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
+/* ----------------------------------------------------
+   GLOBAL NAVIGATION BAR
+---------------------------------------------------- */
 
-/* Settings drawer */
-#settingsPanel {
-  position: fixed;
-  top: 0;
-  right: -380px;
-  width: 380px;
-  height: 100vh;
-  background: #ffffff;
-  box-shadow: -4px 0 16px rgba(0,0,0,0.18);
-  padding: 18px 18px 30px;
-  transition: right 0.28s ease-out;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-}
-#settingsPanel.open {
-  right: 0;
-}
-.settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.settings-header h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-.closeBtn {
-  background: #e5e7eb;
-  border: none;
-  border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-.settings-section-title {
-  margin-top: 12px;
-  margin-bottom: 4px;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-}
-.settings-panel-body {
-  overflow-y: auto;
-  padding-right: 4px;
-}
-.settings-panel-body label {
-  font-size: 0.8rem;
-  display: block;
-  margin-top: 6px;
-  margin-bottom: 2px;
-}
-
-/* Performance card */
-.perf-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-}
-.small-label {
-  font-size: 0.8rem;
-}
-
-/* Responsive */
-@media (max-width: 720px) {
-  .grid-row {
-    grid-template-columns: 1.8fr 1fr 1fr 1fr;
-  }
-  #settingsPanel {
+.navbar {
     width: 100%;
-    right: -100%;
-  }
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.navbar-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    color: var(--accent-hover);
+}
+
+/* ----------------------------------------------------
+   PAGE TITLES
+---------------------------------------------------- */
+
+.page-header {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.page-header h3 {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-top: 0;
+}
+
+/* ----------------------------------------------------
+   CARDS
+---------------------------------------------------- */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: var(--shadow);
+}
+
+/* ----------------------------------------------------
+   INPUTS
+---------------------------------------------------- */
+
+label {
+    display: block;
+    margin-top: 18px;
+    font-weight: 500;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: #ffffff;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* ----------------------------------------------------
+   BUTTONS
+---------------------------------------------------- */
+
+.button {
+    display: inline-block;
+    padding: 14px 22px;
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.button:hover {
+    background: var(--accent-hover);
+}
+
+/* ----------------------------------------------------
+   GRID BUTTONS (Aircraft selection)
+---------------------------------------------------- */
+
+.aircraft-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.aircraft-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    width: 260px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: var(--shadow);
+}
+
+.aircraft-card:hover {
+    transform: scale(1.03);
+    border-color: var(--accent);
+}
+
+.aircraft-card img {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+/* ----------------------------------------------------
+   RESULTS BOX
+---------------------------------------------------- */
+
+.result-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-top: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* ----------------------------------------------------
+   SAFE TO FLY INDICATOR
+---------------------------------------------------- */
+
+.safe {
+    color: var(--good);
+    font-weight: 700;
+}
+
+.warn {
+    color: var(--warn);
+    font-weight: 700;
+}
+
+.unsafe {
+    color: var(--bad);
+    font-weight: 700;
 }
