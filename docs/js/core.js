@@ -1,4 +1,4 @@
-/* core.js — global helpers, defaults, navigation, auto settings panel */
+/* core.js — global helpers, defaults, navigation, settings panel */
 
 function isC172() {
     return window.location.pathname.includes("cessna172");
@@ -109,27 +109,25 @@ function getCurrentSettings() {
 // ---------- AUTO‑INJECT SETTINGS PANEL ----------
 
 document.addEventListener("DOMContentLoaded", () => {
-    // only inject on aircraft pages
     if (!isC172() && !isLJ45()) return;
 
-    // if panel already exists, skip
-    if (document.getElementById("settingsPanel")) return;
-
-    const panel = document.createElement("div");
-    panel.id = "settingsPanel";
-    panel.className = "settings-panel";
-    panel.innerHTML = `
-        <div class="settings-header">
-            <h2>Settings</h2>
-            <button id="closeSettings" class="close-btn">✕</button>
-        </div>
-        <div id="settingsContent"></div>
-        <div class="settings-footer">
-            <button id="saveSettingsBtn" class="button">Save</button>
-            <button id="resetSettingsBtn" class="button" style="background:#e74c3c;">Reset</button>
-        </div>
-    `;
-    document.body.appendChild(panel);
+    if (!document.getElementById("settingsPanel")) {
+        const panel = document.createElement("div");
+        panel.id = "settingsPanel";
+        panel.className = "settings-panel";
+        panel.innerHTML = `
+            <div class="settings-header">
+                <h2>Settings</h2>
+                <button id="closeSettings" class="close-btn">✕</button>
+            </div>
+            <div id="settingsContent"></div>
+            <div class="settings-footer">
+                <button id="saveSettingsBtn" class="button">Save</button>
+                <button id="resetSettingsBtn" class="button" style="background:#e74c3c;">Reset</button>
+            </div>
+        `;
+        document.body.appendChild(panel);
+    }
 
     const closeBtn = document.getElementById("closeSettings");
     if (closeBtn) closeBtn.addEventListener("click", closeSettings);
