@@ -2,54 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learjet 45 – Aircraft Specs</title>
+    <title>LJ45 – Specs</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
     <div class="navbar">
-        <div class="navbar-title">Learjet 45 – Specs</div>
-        <a href="../index.html">Change Aircraft</a>
+        <button class="nav-back" onclick="goBack()">← Back</button>
+        <div class="navbar-title">Aircraft Specs</div>
+        <button class="nav-settings" onclick="openSettings()">⚙</button>
     </div>
 
     <div class="page-header">
         <h1>Aircraft Specifications</h1>
-        <h3>Values shown here update based on Settings</h3>
     </div>
 
-    <div class="card" id="specsCard">
-
-        <h2>General</h2>
-        <p>Model: <span id="specModel">Learjet 45</span></p>
-        <p>Engine: <span id="specEngine">Honeywell TFE731‑20</span></p>
-        <p>Fuel Type: <span id="specFuelType">Jet‑A</span></p>
-
-        <h2>Weights</h2>
-        <p>Max Takeoff Weight: <span id="specMaxTOW">21500</span> lbs</p>
-        <p>Max Landing Weight: <span id="specMaxLW">19200</span> lbs</p>
-        <p>Empty Weight: <span id="specEmptyWeight">12500</span> lbs</p>
-        <p>Fuel Capacity: <span id="specFuelCapacity">6062</span> lbs</p>
-
-        <h2>Capacity</h2>
-        <p>Crew: <span id="specCrew">2</span></p>
-        <p>Passengers: <span id="specPassengers">8</span></p>
-        <p>Total Seats: <span id="specTotalSeats">10</span></p>
-        <p>Baggage Capacity: <span id="specBaggageCapacity">500</span> lbs</p>
-
-        <h2>Performance</h2>
-        <p>Cruise Speed: <span id="specCruise">465</span> KTAS</p>
-        <p>Range: <span id="specRange">1900</span> NM</p>
-        <p>Service Ceiling: <span id="specCeiling">51000</span> ft</p>
-
-        <h2>V‑Speeds</h2>
-        <p>Vr: <span id="specVr">130</span> KIAS</p>
-        <p>Vfe: <span id="specVfe">200</span> KIAS</p>
-        <p>Vne: <span id="specVne">330</span> KIAS</p>
-
+    <div class="card">
+        <p>Max Takeoff Weight: <span id="specMaxTOW"></span></p>
+        <p>Max Landing Weight: <span id="specMaxLW"></span></p>
+        <p>Empty Weight: <span id="specEmptyWeight"></span></p>
+        <p>Fuel Capacity: <span id="specFuelCapacity"></span></p>
     </div>
 
     <script src="../js/core.js"></script>
+    <script src="../js/settings.js"></script>
     <script src="../js/specs.js"></script>
 </body>
 </html>
