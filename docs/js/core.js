@@ -45,8 +45,6 @@ const DEFAULTS = {
         range: 1900,
         ceiling: 51000,
         vr: 130,
-        vx: 0,
-        vy: 0,
         vfe: 200,
         vne: 330
     }
@@ -77,4 +75,12 @@ function getCurrentSettings() {
     } catch {
         return defaults;
     }
+}
+
+// numeric helper
+function num(id) {
+    const el = document.getElementById(id);
+    if (!el) return 0;
+    const v = Number(el.value);
+    return isNaN(v) ? 0 : v;
 }
