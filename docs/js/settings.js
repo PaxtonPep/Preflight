@@ -13,7 +13,6 @@ function loadSettingsPanel() {
     const panel = document.getElementById("settingsContent");
     if (!panel) return;
 
-    // Decide which page we’re on and show only relevant fields
     const path = window.location.pathname;
 
     // SPECS pages
@@ -57,13 +56,13 @@ function loadSettingsPanel() {
     // PERF pages
     if (path.includes("perf.html")) {
         panel.innerHTML = `
-            <label>Cruise Speed (for defaults)</label>
+            <label>Cruise Speed (default)</label>
             <input id="setCruise" type="number" value="${s.cruise}">
         `;
         return;
     }
 
-    // Aircraft home (optional)
+    // Aircraft home
     panel.innerHTML = `
         <label>Crew Count</label>
         <input id="setCrew" type="number" value="${s.crew}">
