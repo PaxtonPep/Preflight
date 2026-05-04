@@ -39,5 +39,27 @@ document.addEventListener("DOMContentLoaded", () => {
         setSpan("specVne", s.vne);
     }
 
-    // LJ45 specs can be wired similarly once its specs page uses IDs
+    if (isLJ45()) {
+        setSpan("specModel", "Learjet 45");
+        setSpan("specEngine", "Honeywell TFE731‑20");
+        setSpan("specFuelType", "Jet‑A");
+
+        setSpan("specMaxTOW", s.maxTOW);
+        setSpan("specMaxLW", s.maxLW);
+        setSpan("specEmptyWeight", s.emptyWeight);
+        setSpan("specFuelCapacity", s.fuelCapacity);
+
+        setSpan("specCrew", s.crew);
+        setSpan("specPassengers", s.passengers);
+        setSpan("specTotalSeats", s.totalSeats);
+        setSpan("specBaggageCapacity", s.baggageCapacity);
+
+        setSpan("specCruise", s.cruise);
+        setSpan("specRange", s.range);
+        setSpan("specCeiling", s.ceiling);
+
+        setSpan("specVr", s.vr);
+        setSpan("specVfe", s.vfe);
+        setSpan("specVne", s.vne);
+    }
 });
