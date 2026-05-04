@@ -2,40 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cessna 172 – Aircraft Home</title>
+    <title>Cessna 172 – Home</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
-    <!-- Global Navigation Bar -->
     <div class="navbar">
+        <button class="nav-back" onclick="window.location.href='../index.html'">← Back</button>
         <div class="navbar-title">Cessna 172</div>
-        <a href="../index.html">Change Aircraft</a>
+        <div class="navbar-spacer"></div>
     </div>
 
-    <!-- Page Header -->
     <div class="page-header">
         <h1>Cessna 172</h1>
-        <h3>Aircraft Profile</h3>
+        <h3>Select a tool</h3>
     </div>
 
-    <!-- Aircraft Image -->
     <div class="card" style="text-align:center;">
-        <img src="../CofG/Assets/cessna172outline.png" 
-             alt="Cessna 172" 
-             style="width:320px; margin-bottom:10px;">
-        <p class="text-light">Single‑engine piston trainer</p>
+        <a href="wb.html" class="button">Weight & Balance</a>
+        <a href="perf.html" class="button">Performance</a>
+        <a href="specs.html" class="button">Aircraft Specs</a>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="card" style="text-align:center;">
-        <a href="wb.html" class="button" style="margin:10px; display:inline-block;">Weight & Balance</a>
-        <a href="perf.html" class="button" style="margin:10px; display:inline-block;">Performance</a>
-        <a href="specs.html" class="button" style="margin:10px; display:inline-block;">Aircraft Specs</a>
-        <a href="settings.html" class="button" style="margin:10px; display:inline-block;">Settings</a>
-    </div>
-
-<script src="../js/core.js"></script>
+    <script src="../js/core.js"></script>
+    <script src="../js/settings.js"></script>
 </body>
 </html>
