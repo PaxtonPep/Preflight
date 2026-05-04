@@ -1,5 +1,5 @@
 /* perf.js
-   Performance for C172 (and later LJ45)
+   Performance for C172 and LJ45
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,6 +10,8 @@ document.addEventListener("input", () => {
     if (isC172()) calculateC172Perf();
     if (isLJ45()) calculateLJ45Perf();
 });
+
+// ---------- C172 ----------
 
 function initC172PerfUI() {
     const modeSelect = document.getElementById("flightMode");
@@ -42,10 +44,10 @@ function initC172PerfUI() {
 }
 
 function calculateC172Perf() {
-    const pressureAlt = num("pressureAlt") || 0;
-    const oat = num("oat") || 0;
-    const ias = num("ias") || 0;
-    const fuelBurn = num("fuelBurn") || 0;
+    const pressureAlt = num("pressureAlt");
+    const oat = num("oat");
+    const ias = num("ias");
+    const fuelBurn = num("fuelBurn");
 
     const modeEl = document.getElementById("flightMode");
     const mode = modeEl ? modeEl.value : "time";
@@ -53,22 +55,19 @@ function calculateC172Perf() {
     let flightTime = 0;
     let distance = 0;
 
-    // density altitude (simple)
     const isaTemp = 15 - (2 * (pressureAlt / 1000));
     const densityAlt = pressureAlt + (120 * (oat - isaTemp));
 
-    // TAS approximation
     const tas = ias + (ias * (densityAlt / 10000) * 0.02);
 
     if (mode === "time") {
-        flightTime = num("flightTime") || 0;
+        flightTime = num("flightTime");
         distance = tas * flightTime;
     } else if (mode === "distance") {
-        distance = num("distance") || 0;
+        distance = num("distance");
         flightTime = tas > 0 ? distance / tas : 0;
     } else if (mode === "block") {
-        const blockTime = num("blockTime") || 0;
-        // assume 0.2 hr taxi, rest cruise
+        const blockTime = num("blockTime");
         flightTime = Math.max(blockTime - 0.2, 0);
         distance = tas * flightTime;
     }
@@ -76,7 +75,7 @@ function calculateC172Perf() {
     const fuelUsed = fuelBurn * flightTime;
 
     const box = document.getElementById("perfResults");
-    if (!box) return;
+    if (!box || tas <= 0) return;
 
     box.innerHTML = `
         <p><b>Density Altitude:</b> ${densityAlt.toFixed(0)} ft</p>
@@ -87,9 +86,32 @@ function calculateC172Perf() {
     `;
 }
 
-// simple LJ45 placeholder
+// ---------- LJ45 ----------
+
 function calculateLJ45Perf() {
-    // hook into your existing LJ45 perf page later
+    const mach = num("mach");
+    const altitude = num("altitude");
+    const oat = num("oat");
+    const fuelBurn = num("fuelBurnLbs");
+    const flightTime = num("flightTime");
+
+    if (mach <= 0 || flightTime <= 0) return;
+
+    const speedOfSound = 661 - (0.003 * altitude);
+    const tas = mach * speedOfSound;
+
+    const fuelUsed = fuelBurn * flightTime;
+    const distance = tas * flightTime;
+
+    const box = document.getElementById("ljPerfResults");
+    if (!box) return;
+
+    box.innerHTML = `
+        <p><b>TAS:</b> ${tas.toFixed(1)} kts</p>
+        <p><b>Flight Time:</b> ${flightTime.toFixed(2)} hr</p>
+        <p><b>Distance:</b> ${distance.toFixed(1)} NM</p>
+        <p><b>Fuel Used:</b> ${fuelUsed.toFixed(0)} lbs</p>
+    `;
 }
 
 // helpers
