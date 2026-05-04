@@ -1,148 +1,122 @@
-/* settings.js
-   Handles saving, loading, and resetting aircraft settings
-*/
+/* settings.js — per‑page slide‑in settings */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const saveBtn = document.getElementById("saveSettingsBtn");
+    const resetBtn = document.getElementById("resetSettingsBtn");
+
+    if (saveBtn) saveBtn.addEventListener("click", saveSettings);
+    if (resetBtn) resetBtn.addEventListener("click", resetSettings);
+});
+
+function loadSettingsPanel() {
+    const s = getCurrentSettings();
+    const panel = document.getElementById("settingsContent");
+    if (!panel) return;
+
+    // Decide which page we’re on and show only relevant fields
+    const path = window.location.pathname;
+
+    // SPECS pages
+    if (path.includes("specs.html")) {
+        if (isC172()) {
+            panel.innerHTML = `
+                <label>Max Takeoff Weight</label>
+                <input id="setMaxTOW" type="number" value="${s.maxTOW}">
+                <label>Empty Weight</label>
+                <input id="setEmptyWeight" type="number" value="${s.emptyWeight}">
+                <label>Fuel Capacity (gal)</label>
+                <input id="setFuelCapacity" type="number" value="${s.fuelCapacity}">
+                <label>Baggage Capacity</label>
+                <input id="setBaggageCapacity" type="number" value="${s.baggageCapacity}">
+            `;
+        }
+        if (isLJ45()) {
+            panel.innerHTML = `
+                <label>Max Takeoff Weight</label>
+                <input id="setMaxTOW" type="number" value="${s.maxTOW}">
+                <label>Max Landing Weight</label>
+                <input id="setMaxLW" type="number" value="${s.maxLW}">
+                <label>Empty Weight</label>
+                <input id="setEmptyWeight" type="number" value="${s.emptyWeight}">
+                <label>Fuel Capacity (lbs)</label>
+                <input id="setFuelCapacity" type="number" value="${s.fuelCapacity}">
+            `;
+        }
+        return;
+    }
+
+    // W&B pages
+    if (path.includes("wb.html")) {
+        panel.innerHTML = `
+            <label>Fuel Density (lbs/gal)</label>
+            <input id="setFuelDensity" type="number" value="${s.fuelDensity}">
+        `;
+        return;
+    }
+
+    // PERF pages
+    if (path.includes("perf.html")) {
+        panel.innerHTML = `
+            <label>Cruise Speed (for defaults)</label>
+            <input id="setCruise" type="number" value="${s.cruise}">
+        `;
+        return;
+    }
+
+    // Aircraft home (optional)
+    panel.innerHTML = `
+        <label>Crew Count</label>
+        <input id="setCrew" type="number" value="${s.crew}">
+        <label>Passenger Capacity</label>
+        <input id="setPassengers" type="number" value="${s.passengers}">
+        <label>Total Seats</label>
+        <input id="setTotalSeats" type="number" value="${s.totalSeats}">
+    `;
+}
 
 function saveSettings() {
     const key = getSettingsKey();
     if (!key) return;
 
+    const s = getCurrentSettings();
     const data = {};
-    const s = getCurrentSettings();
+    const path = window.location.pathname;
 
-    if (isC172()) {
-        data.fuelDensity = numOrNull("setFuelDensity", s.fuelDensity);
-        data.maxTOW = numOrNull("setMaxTOW", s.maxTOW);
-        data.emptyWeight = numOrNull("setEmptyWeight", s.emptyWeight);
-        data.fuelCapacity = numOrNull("setFuelCapacity", s.fuelCapacity);
-        data.baggageCapacity = numOrNull("setBaggageCapacity", s.baggageCapacity);
-        data.crew = numOrNull("setCrew", s.crew);
-        data.passengers = numOrNull("setPassengers", s.passengers);
-        data.totalSeats = numOrNull("setTotalSeats", s.totalSeats);
-        data.cruise = numOrNull("setCruise", s.cruise);
-        data.range = numOrNull("setRange", s.range);
-        data.ceiling = numOrNull("setCeiling", s.ceiling);
-        data.vr = numOrNull("setVr", s.vr);
-        data.vx = numOrNull("setVx", s.vx);
-        data.vy = numOrNull("setVy", s.vy);
-        data.vfe = numOrNull("setVfe", s.vfe);
-        data.vne = numOrNull("setVne", s.vne);
-    }
-
-    if (isLJ45()) {
-        data.fuelDensity = numOrNull("setFuelDensity", s.fuelDensity);
-        data.maxTOW = numOrNull("setMaxTOW", s.maxTOW);
-        data.maxLW = numOrNull("setMaxLW", s.maxLW);
-        data.emptyWeight = numOrNull("setEmptyWeight", s.emptyWeight);
-        data.fuelCapacity = numOrNull("setFuelCapacity", s.fuelCapacity);
-        data.baggageCapacity = numOrNull("setBaggageCapacity", s.baggageCapacity);
-        data.crew = numOrNull("setCrew", s.crew);
-        data.passengers = numOrNull("setPassengers", s.passengers);
-        data.totalSeats = numOrNull("setTotalSeats", s.totalSeats);
-        data.cruise = numOrNull("setCruise", s.cruise);
-        data.range = numOrNull("setRange", s.range);
-        data.ceiling = numOrNull("setCeiling", s.ceiling);
-        data.vr = numOrNull("setVr", s.vr);
-        data.vfe = numOrNull("setVfe", s.vfe);
-        data.vne = numOrNull("setVne", s.vne);
-    }
-
-    localStorage.setItem(key, JSON.stringify(data));
-    setStatus("Settings saved.", "safe");
-}
-
-function loadSettingsIntoForm() {
-    const s = getCurrentSettings();
-
-    function set(id, val) {
+    const get = id => {
         const el = document.getElementById(id);
-        if (el && val !== undefined && val !== null) el.value = val;
+        return el ? Number(el.value) : undefined;
+    };
+
+    if (path.includes("specs.html")) {
+        if (isC172()) {
+            data.maxTOW = get("setMaxTOW") ?? s.maxTOW;
+            data.emptyWeight = get("setEmptyWeight") ?? s.emptyWeight;
+            data.fuelCapacity = get("setFuelCapacity") ?? s.fuelCapacity;
+            data.baggageCapacity = get("setBaggageCapacity") ?? s.baggageCapacity;
+        }
+        if (isLJ45()) {
+            data.maxTOW = get("setMaxTOW") ?? s.maxTOW;
+            data.maxLW = get("setMaxLW") ?? s.maxLW;
+            data.emptyWeight = get("setEmptyWeight") ?? s.emptyWeight;
+            data.fuelCapacity = get("setFuelCapacity") ?? s.fuelCapacity;
+        }
+    } else if (path.includes("wb.html")) {
+        data.fuelDensity = get("setFuelDensity") ?? s.fuelDensity;
+    } else if (path.includes("perf.html")) {
+        data.cruise = get("setCruise") ?? s.cruise;
+    } else {
+        data.crew = get("setCrew") ?? s.crew;
+        data.passengers = get("setPassengers") ?? s.passengers;
+        data.totalSeats = get("setTotalSeats") ?? s.totalSeats;
     }
 
-    if (isC172()) {
-        set("setFuelDensity", s.fuelDensity);
-        set("setMaxTOW", s.maxTOW);
-        set("setEmptyWeight", s.emptyWeight);
-        set("setFuelCapacity", s.fuelCapacity);
-        set("setBaggageCapacity", s.baggageCapacity);
-        set("setCrew", s.crew);
-        set("setPassengers", s.passengers);
-        set("setTotalSeats", s.totalSeats);
-        set("setCruise", s.cruise);
-        set("setRange", s.range);
-        set("setCeiling", s.ceiling);
-        set("setVr", s.vr);
-        set("setVx", s.vx);
-        set("setVy", s.vy);
-        set("setVfe", s.vfe);
-        set("setVne", s.vne);
-    }
-
-    if (isLJ45()) {
-        set("setFuelDensity", s.fuelDensity);
-        set("setMaxTOW", s.maxTOW);
-        set("setMaxLW", s.maxLW);
-        set("setEmptyWeight", s.emptyWeight);
-        set("setFuelCapacity", s.fuelCapacity);
-        set("setBaggageCapacity", s.baggageCapacity);
-        set("setCrew", s.crew);
-        set("setPassengers", s.passengers);
-        set("setTotalSeats", s.totalSeats);
-        set("setCruise", s.cruise);
-        set("setRange", s.range);
-        set("setCeiling", s.ceiling);
-        set("setVr", s.vr);
-        set("setVfe", s.vfe);
-        set("setVne", s.vne);
-    }
+    localStorage.setItem(key, JSON.stringify({ ...s, ...data }));
+    closeSettings();
 }
 
 function resetSettings() {
     const key = getSettingsKey();
     if (!key) return;
     localStorage.removeItem(key);
-    loadSettingsIntoForm();
-    setStatus("Settings reset to defaults.", "warn");
+    loadSettingsPanel();
 }
-
-function numOrNull(id, fallback) {
-    const el = document.getElementById(id);
-    if (!el) return fallback;
-    const v = Number(el.value);
-    if (isNaN(v) || el.value === "") return fallback;
-    return v;
-}
-
-function setStatus(msg, cls) {
-    const box = document.getElementById("settingsStatus");
-    if (!box) return;
-    box.textContent = msg;
-    box.className = cls;
-}
-
-// tabbed sections (optional if you add tabs in HTML)
-document.addEventListener("DOMContentLoaded", () => {
-    if (!document.getElementById("settingsStatus")) return;
-
-    loadSettingsIntoForm();
-
-    const saveBtn = document.getElementById("saveC172SettingsBtn") || document.getElementById("saveLJ45SettingsBtn");
-    const resetBtn = document.getElementById("resetC172SettingsBtn") || document.getElementById("resetLJ45SettingsBtn");
-
-    if (saveBtn) saveBtn.addEventListener("click", saveSettings);
-    if (resetBtn) resetBtn.addEventListener("click", resetSettings);
-
-    const tabs = document.querySelectorAll(".settings-tab");
-    const sections = document.querySelectorAll(".settings-section");
-
-    if (tabs.length && sections.length) {
-        tabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                tabs.forEach(t => t.classList.remove("active"));
-                sections.forEach(s => s.classList.remove("active"));
-                tab.classList.add("active");
-                document.getElementById(tab.dataset.target).classList.add("active");
-            });
-        });
-        tabs[0].click();
-    }
-});
