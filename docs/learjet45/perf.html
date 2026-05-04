@@ -2,46 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learjet 45 – Performance</title>
+    <title>LJ45 – Performance</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
     <div class="navbar">
-        <div class="navbar-title">Learjet 45 – Performance</div>
-        <a href="../index.html">Change Aircraft</a>
+        <button class="nav-back" onclick="goBack()">← Back</button>
+        <div class="navbar-title">Performance</div>
+        <button class="nav-settings" onclick="openSettings()">⚙</button>
     </div>
 
     <div class="page-header">
         <h1>Performance Calculator</h1>
-        <h3>Plan cruise, fuel, and range</h3>
     </div>
 
     <div class="card">
 
         <label>Mach Number</label>
-        <input type="number" id="mach" placeholder="e.g. 0.78">
+        <input id="mach" type="number">
 
         <label>Cruise Altitude (ft)</label>
-        <input type="number" id="altitude" placeholder="e.g. 41000">
+        <input id="altitude" type="number">
 
         <label>OAT (°C)</label>
-        <input type="number" id="oat" placeholder="e.g. -55">
+        <input id="oat" type="number">
 
         <label>Fuel Burn (lbs/hr)</label>
-        <input type="number" id="fuelBurnLbs" placeholder="e.g. 1800">
+        <input id="fuelBurnLbs" type="number">
 
-        <label>Flight Time (hours)</label>
-        <input type="number" id="flightTime" placeholder="e.g. 3.2">
+        <label>Flight Time (hr)</label>
+        <input id="flightTime" type="number">
 
-        <div class="result-box" id="ljPerfResults">
-            <p>Enter values to calculate performance.</p>
-        </div>
+        <div id="ljPerfResults" class="result-box">Enter values to calculate.</div>
 
     </div>
 
     <script src="../js/core.js"></script>
+    <script src="../js/settings.js"></script>
     <script src="../js/perf.js"></script>
 </body>
 </html>
