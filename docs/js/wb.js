@@ -1,6 +1,4 @@
-/* wb.js
-   Weight & Balance for C172 and LJ45
-*/
+/* wb.js — Weight & Balance */
 
 document.addEventListener("input", () => {
     if (isC172()) calculateC172WB();
@@ -11,7 +9,7 @@ document.addEventListener("input", () => {
 
 function calculateC172WB() {
     const s = getCurrentSettings();
-    const fuelDensity = s.fuelDensity || 6.0;
+    const fuelDensity = s.fuelDensity;
 
     const front = num("frontSeats");
     const rear = num("rearSeats");
@@ -31,7 +29,7 @@ function calculateC172WB() {
     const ARM_BAG = 95;
     const ARM_FUEL = 48;
 
-    const EMPTY_WEIGHT = s.emptyWeight || 1660;
+    const EMPTY_WEIGHT = s.emptyWeight;
     const EMPTY_ARM = 39.5;
 
     const momentEmpty = EMPTY_WEIGHT * EMPTY_ARM;
@@ -56,12 +54,11 @@ function calculateC172WB() {
     const landingMoment = takeoffMoment - (reserveLbs * ARM_FUEL);
     const landingCG = landingMoment / landingWeight;
 
-    const results = document.getElementById("results");
-    if (results && rampWeight > 0) {
-        results.innerHTML = `
+    const box = document.getElementById("results");
+    if (box && rampWeight > 0) {
+        box.innerHTML = `
             <p><b>Ramp Weight:</b> ${rampWeight.toFixed(1)} lbs</p>
             <p><b>Ramp CG:</b> ${rampCG.toFixed(2)} in</p>
-            <p><b>Taxi Weight:</b> ${taxiWeight.toFixed(1)} lbs</p>
             <p><b>Takeoff Weight:</b> ${takeoffWeight.toFixed(1)} lbs</p>
             <p><b>Takeoff CG:</b> ${takeoffCG.toFixed(2)} in</p>
             <p><b>Landing Weight:</b> ${landingWeight.toFixed(1)} lbs</p>
@@ -73,31 +70,17 @@ function calculateC172WB() {
 }
 
 function updateSafeToFlyC172(tow, lw, s) {
-    const maxTOW = s.maxTOW || 2550;
-    const maxLW = maxTOW;
+    const maxTOW = s.maxTOW;
+    const maxLW = s.maxTOW;
+
     const box = document.getElementById("safeStatus");
-    if (!box || tow <= 0 || lw <= 0) return;
-
-    const towMargin = maxTOW - tow;
-    const lwMargin = maxLW - lw;
-
-    let msg = "";
-    let cls = "";
+    if (!box) return;
 
     if (tow <= maxTOW && lw <= maxLW) {
-        if (towMargin < 100 || lwMargin < 100) {
-            msg = "Caution: Within limits but close to maximum weight.";
-            cls = "warn";
-        } else {
-            msg = "Safe to fly: All weights within limits.";
-            cls = "safe";
-        }
+        box.innerHTML = `<p class="safe">Safe to fly</p>`;
     } else {
-        msg = "Not safe to fly: One or more weights exceed limits.";
-        cls = "unsafe";
+        box.innerHTML = `<p class="unsafe">Not safe to fly</p>`;
     }
-
-    box.innerHTML = `<p class="${cls}">${msg}</p>`;
 }
 
 // ---------- LJ45 ----------
@@ -110,79 +93,4 @@ function calculateLJ45WB() {
     const aft = num("aftBaggage");
     const fuel = num("fuelLbs");
     const burn = num("fuelBurnLbs");
-    const taxiFuel = num("taxiFuel");
-    const reserveFuel = num("reserveFuel");
-
-    const ARM_CREW = 130;
-    const ARM_PAX = 200;
-    const ARM_AFT = 300;
-    const ARM_FUEL = 180;
-
-    const EMPTY_WEIGHT = s.emptyWeight || 12500;
-    const EMPTY_ARM = 180;
-
-    const momentEmpty = EMPTY_WEIGHT * EMPTY_ARM;
-    const momentCrew = crew * ARM_CREW;
-    const momentPax = pax * ARM_PAX;
-    const momentAft = aft * ARM_AFT;
-    const momentFuel = fuel * ARM_FUEL;
-
-    const rampWeight = EMPTY_WEIGHT + crew + pax + aft + fuel;
-    const rampMoment = momentEmpty + momentCrew + momentPax + momentAft + momentFuel;
-    const rampCG = rampMoment / rampWeight;
-
-    const taxiWeight = rampWeight - taxiFuel;
-    const taxiMoment = rampMoment - (taxiFuel * ARM_FUEL);
-    const taxiCG = taxiMoment / taxiWeight;
-
-    const takeoffWeight = taxiWeight - burn;
-    const takeoffMoment = taxiMoment - (burn * ARM_FUEL);
-    const takeoffCG = takeoffMoment / takeoffWeight;
-
-    const landingWeight = takeoffWeight - reserveFuel;
-    const landingMoment = takeoffMoment - (reserveFuel * ARM_FUEL);
-    const landingCG = landingMoment / landingWeight;
-
-    const results = document.getElementById("ljResults");
-    if (results && rampWeight > 0) {
-        results.innerHTML = `
-            <p><b>Ramp Weight:</b> ${rampWeight.toFixed(1)} lbs</p>
-            <p><b>Ramp CG:</b> ${rampCG.toFixed(2)} in</p>
-            <p><b>Taxi Weight:</b> ${taxiWeight.toFixed(1)} lbs</p>
-            <p><b>Takeoff Weight:</b> ${takeoffWeight.toFixed(1)} lbs</p>
-            <p><b>Takeoff CG:</b> ${takeoffCG.toFixed(2)} in</p>
-            <p><b>Landing Weight:</b> ${landingWeight.toFixed(1)} lbs</p>
-            <p><b>Landing CG:</b> ${landingCG.toFixed(2)} in</p>
-        `;
-    }
-
-    updateSafeToFlyLJ45(takeoffWeight, landingWeight, s);
-}
-
-function updateSafeToFlyLJ45(tow, lw, s) {
-    const maxTOW = s.maxTOW || 21500;
-    const maxLW = s.maxLW || 19200;
-    const box = document.getElementById("safeStatus");
-    if (!box || tow <= 0 || lw <= 0) return;
-
-    const towMargin = maxTOW - tow;
-    const lwMargin = maxLW - lw;
-
-    let msg = "";
-    let cls = "";
-
-    if (tow <= maxTOW && lw <= maxLW) {
-        if (towMargin < 500 || lwMargin < 500) {
-            msg = "Caution: Within limits but close to maximum weight.";
-            cls = "warn";
-        } else {
-            msg = "Safe to fly: All weights within limits.";
-            cls = "safe";
-        }
-    } else {
-        msg = "Not safe to fly: One or more weights exceed limits.";
-        cls = "unsafe";
-    }
-
-    box.innerHTML = `<p class="${cls}">${msg}</p>`;
-}
+    const taxiFuel = num
