@@ -93,4 +93,64 @@ function calculateLJ45WB() {
     const aft = num("aftBaggage");
     const fuel = num("fuelLbs");
     const burn = num("fuelBurnLbs");
-    const taxiFuel = num
+    const taxiFuel = num("taxiFuel");
+    const reserveFuel = num("reserveFuel");
+
+    const ARM_CREW = 130;
+    const ARM_PAX = 200;
+    const ARM_AFT = 300;
+    const ARM_FUEL = 180;
+
+    const EMPTY_WEIGHT = s.emptyWeight;
+    const EMPTY_ARM = 180;
+
+    const momentEmpty = EMPTY_WEIGHT * EMPTY_ARM;
+    const momentCrew = crew * ARM_CREW;
+    const momentPax = pax * ARM_PAX;
+    const momentAft = aft * ARM_AFT;
+    const momentFuel = fuel * ARM_FUEL;
+
+    const rampWeight = EMPTY_WEIGHT + crew + pax + aft + fuel;
+    const rampMoment = momentEmpty + momentCrew + momentPax + momentAft + momentFuel;
+    const rampCG = rampMoment / rampWeight;
+
+    const taxiWeight = rampWeight - taxiFuel;
+    const taxiMoment = rampMoment - (taxiFuel * ARM_FUEL);
+    const taxiCG = taxiMoment / taxiWeight;
+
+    const takeoffWeight = taxiWeight - burn;
+    const takeoffMoment = taxiMoment - (burn * ARM_FUEL);
+    const takeoffCG = takeoffMoment / takeoffWeight;
+
+    const landingWeight = takeoffWeight - reserveFuel;
+    const landingMoment = takeoffMoment - (reserveFuel * ARM_FUEL);
+    const landingCG = landingMoment / landingWeight;
+
+    const box = document.getElementById("ljResults");
+    if (box && rampWeight > 0) {
+        box.innerHTML = `
+            <p><b>Ramp Weight:</b> ${rampWeight.toFixed(1)} lbs</p>
+            <p><b>Ramp CG:</b> ${rampCG.toFixed(2)} in</p>
+            <p><b>Takeoff Weight:</b> ${takeoffWeight.toFixed(1)} lbs</p>
+            <p><b>Takeoff CG:</b> ${takeoffCG.toFixed(2)} in</p>
+            <p><b>Landing Weight:</b> ${landingWeight.toFixed(1)} lbs</p>
+            <p><b>Landing CG:</b> ${landingCG.toFixed(2)} in</p>
+        `;
+    }
+
+    updateSafeToFlyLJ45(takeoffWeight, landingWeight, s);
+}
+
+function updateSafeToFlyLJ45(tow, lw, s) {
+    const maxTOW = s.maxTOW;
+    const maxLW = s.maxLW;
+
+    const box = document.getElementById("safeStatus");
+    if (!box) return;
+
+    if (tow <= maxTOW && lw <= maxLW) {
+        box.innerHTML = `<p class="safe">Safe to fly</p>`;
+    } else {
+        box.innerHTML = `<p class="unsafe">Not safe to fly</p>`;
+    }
+}
