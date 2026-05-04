@@ -7,49 +7,47 @@ function saveSettings() {
     if (!key) return;
 
     const data = {};
+    const s = getCurrentSettings();
 
-    // C172 fields
     if (isC172()) {
-        data.fuelDensity = num("setFuelDensity");
-        data.maxTOW = num("setMaxTOW");
-        data.emptyWeight = num("setEmptyWeight");
-        data.fuelCapacity = num("setFuelCapacity");
-        data.baggageCapacity = num("setBaggageCapacity");
-        data.crew = num("setCrew");
-        data.passengers = num("setPassengers");
-        data.totalSeats = num("setTotalSeats");
-        data.cruise = num("setCruise");
-        data.range = num("setRange");
-        data.ceiling = num("setCeiling");
-        data.vr = num("setVr");
-        data.vx = num("setVx");
-        data.vy = num("setVy");
-        data.vfe = num("setVfe");
-        data.vne = num("setVne");
+        data.fuelDensity = numOrNull("setFuelDensity", s.fuelDensity);
+        data.maxTOW = numOrNull("setMaxTOW", s.maxTOW);
+        data.emptyWeight = numOrNull("setEmptyWeight", s.emptyWeight);
+        data.fuelCapacity = numOrNull("setFuelCapacity", s.fuelCapacity);
+        data.baggageCapacity = numOrNull("setBaggageCapacity", s.baggageCapacity);
+        data.crew = numOrNull("setCrew", s.crew);
+        data.passengers = numOrNull("setPassengers", s.passengers);
+        data.totalSeats = numOrNull("setTotalSeats", s.totalSeats);
+        data.cruise = numOrNull("setCruise", s.cruise);
+        data.range = numOrNull("setRange", s.range);
+        data.ceiling = numOrNull("setCeiling", s.ceiling);
+        data.vr = numOrNull("setVr", s.vr);
+        data.vx = numOrNull("setVx", s.vx);
+        data.vy = numOrNull("setVy", s.vy);
+        data.vfe = numOrNull("setVfe", s.vfe);
+        data.vne = numOrNull("setVne", s.vne);
     }
 
-    // LJ45 fields (when you build its settings page)
     if (isLJ45()) {
-        data.fuelDensity = num("setFuelDensity");
-        data.maxTOW = num("setMaxTOW");
-        data.maxLW = num("setMaxLW");
-        data.emptyWeight = num("setEmptyWeight");
-        data.fuelCapacity = num("setFuelCapacity");
-        data.baggageCapacity = num("setBaggageCapacity");
-        data.crew = num("setCrew");
-        data.passengers = num("setPassengers");
-        data.totalSeats = num("setTotalSeats");
-        data.cruise = num("setCruise");
-        data.range = num("setRange");
-        data.ceiling = num("setCeiling");
-        data.vr = num("setVr");
-        data.vfe = num("setVfe");
-        data.vne = num("setVne");
+        data.fuelDensity = numOrNull("setFuelDensity", s.fuelDensity);
+        data.maxTOW = numOrNull("setMaxTOW", s.maxTOW);
+        data.maxLW = numOrNull("setMaxLW", s.maxLW);
+        data.emptyWeight = numOrNull("setEmptyWeight", s.emptyWeight);
+        data.fuelCapacity = numOrNull("setFuelCapacity", s.fuelCapacity);
+        data.baggageCapacity = numOrNull("setBaggageCapacity", s.baggageCapacity);
+        data.crew = numOrNull("setCrew", s.crew);
+        data.passengers = numOrNull("setPassengers", s.passengers);
+        data.totalSeats = numOrNull("setTotalSeats", s.totalSeats);
+        data.cruise = numOrNull("setCruise", s.cruise);
+        data.range = numOrNull("setRange", s.range);
+        data.ceiling = numOrNull("setCeiling", s.ceiling);
+        data.vr = numOrNull("setVr", s.vr);
+        data.vfe = numOrNull("setVfe", s.vfe);
+        data.vne = numOrNull("setVne", s.vne);
     }
 
     localStorage.setItem(key, JSON.stringify(data));
-    const status = document.getElementById("settingsStatus");
-    if (status) status.innerHTML = "<p class='safe'>Settings saved.</p>";
+    setStatus("Settings saved.", "safe");
 }
 
 function loadSettingsIntoForm() {
@@ -103,27 +101,48 @@ function resetSettings() {
     if (!key) return;
     localStorage.removeItem(key);
     loadSettingsIntoForm();
-    const status = document.getElementById("settingsStatus");
-    if (status) status.innerHTML = "<p class='warn'>Settings reset to defaults.</p>";
+    setStatus("Settings reset to defaults.", "warn");
 }
 
-// helper
-function num(id) {
+function numOrNull(id, fallback) {
     const el = document.getElementById(id);
-    if (!el) return null;
+    if (!el) return fallback;
     const v = Number(el.value);
-    return isNaN(v) ? null : v;
+    if (isNaN(v) || el.value === "") return fallback;
+    return v;
 }
 
+function setStatus(msg, cls) {
+    const box = document.getElementById("settingsStatus");
+    if (!box) return;
+    box.textContent = msg;
+    box.className = cls;
+}
+
+// tabbed sections (optional if you add tabs in HTML)
 document.addEventListener("DOMContentLoaded", () => {
-    // Only run on settings pages
-    if (document.getElementById("settingsStatus")) {
-        loadSettingsIntoForm();
+    if (!document.getElementById("settingsStatus")) return;
 
-        const saveBtn = document.getElementById("saveC172SettingsBtn") || document.getElementById("saveLJ45SettingsBtn");
-        const resetBtn = document.getElementById("resetC172SettingsBtn") || document.getElementById("resetLJ45SettingsBtn");
+    loadSettingsIntoForm();
 
-        if (saveBtn) saveBtn.addEventListener("click", saveSettings);
-        if (resetBtn) resetBtn.addEventListener("click", resetSettings);
+    const saveBtn = document.getElementById("saveC172SettingsBtn") || document.getElementById("saveLJ45SettingsBtn");
+    const resetBtn = document.getElementById("resetC172SettingsBtn") || document.getElementById("resetLJ45SettingsBtn");
+
+    if (saveBtn) saveBtn.addEventListener("click", saveSettings);
+    if (resetBtn) resetBtn.addEventListener("click", resetSettings);
+
+    const tabs = document.querySelectorAll(".settings-tab");
+    const sections = document.querySelectorAll(".settings-section");
+
+    if (tabs.length && sections.length) {
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                tabs.forEach(t => t.classList.remove("active"));
+                sections.forEach(s => s.classList.remove("active"));
+                tab.classList.add("active");
+                document.getElementById(tab.dataset.target).classList.add("active");
+            });
+        });
+        tabs[0].click();
     }
 });
